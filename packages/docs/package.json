@@ -1,0 +1,10 @@
+{
+  "name": "@kamod/i18n-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "echo docs-ready",
+    "typecheck": "echo docs-typecheck-skipped",
+    "test": "echo docs-tests-skipped"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "@kamod/i18n",
+  "version": "0.1.0",
+  "description": "Type-safe, Preact-native internationalization with zero runtime dependencies.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./preact": {
+      "types": "./dist/preact.d.ts",
+      "import": "./dist/preact.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "peerDependencies": {
+    "preact": ">=10.0.0"
+  },
+  "peerDependenciesMeta": {
+    "preact": { "optional": true }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/preact.ts --format esm --dts --sourcemap --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "kamod-i18n-preact-vite-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "echo example-tests-skipped"
+  },
+  "dependencies": {
+    "@kamod/i18n": "workspace:*",
+    "preact": "^10.25.3"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.9.3"
+  }
+}
