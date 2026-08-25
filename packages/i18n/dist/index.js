@@ -29,7 +29,7 @@ var getMessage = (messages, key) => {
   if (!messages) return void 0;
   let current = messages;
   for (const part of key.split(".")) {
-    if (!isPlainObject(current) || !(part in current)) return void 0;
+    if (!isPlainObject(current) || !Object.prototype.hasOwnProperty.call(current, part)) return void 0;
     current = current[part];
   }
   return typeof current === "string" || isPluralMessage(current) ? current : void 0;
@@ -60,6 +60,9 @@ var localeChain = (locale, fallbackLocale) => {
 // src/core/create-i18n.ts
 var isLocaleLoader = (value) => typeof value === "function";
 var makeUnknownLocaleError = (locale, available) => new Error(`Unknown locale "${locale}". Available locales: ${available.join(", ")}.`);
+var makeLazyRequiredLocaleError = (role, locale) => new TypeError(
+  `${role} locale "${locale}" must use an eager messages object; locale loaders are only supported for switch targets.`
+);
 var createI18n = (options) => {
   const sources = options.messages;
   const locales = Object.keys(sources);
@@ -67,6 +70,7 @@ var createI18n = (options) => {
   const pending = /* @__PURE__ */ new Map();
   const listeners = /* @__PURE__ */ new Set();
   let activeLocale = options.locale;
+  let localeRequest = 0;
   const numberFormatter = createFormatterCache(
     (locale, formatOptions) => new Intl.NumberFormat(locale, formatOptions)
   );
@@ -89,21 +93,22 @@ var createI18n = (options) => {
     const existing = pending.get(locale);
     if (existing) return existing;
     const source = sources[locale];
-    const promise = Promise.resolve(isLocaleLoader(source) ? source() : source).then((value) => {
+    const promise = Promise.resolve().then(() => isLocaleLoader(source) ? source() : source).then((value) => {
       const messages = normalizeMessages(value);
       loaded.set(locale, messages);
-      pending.delete(locale);
       return messages;
-    });
+    }).finally(() => pending.delete(locale));
     pending.set(locale, promise);
     return promise;
   };
+  if (!hasLocale(options.locale)) throw makeUnknownLocaleError(options.locale, locales);
+  if (!hasLocale(options.fallbackLocale)) throw makeUnknownLocaleError(options.fallbackLocale, locales);
+  if (isLocaleLoader(sources[options.locale])) throw makeLazyRequiredLocaleError("Initial", options.locale);
+  if (isLocaleLoader(sources[options.fallbackLocale])) throw makeLazyRequiredLocaleError("Fallback", options.fallbackLocale);
   for (const locale of locales) {
     const source = sources[locale];
     if (!isLocaleLoader(source)) loaded.set(locale, normalizeMessages(source));
   }
-  if (!hasLocale(options.locale)) throw makeUnknownLocaleError(options.locale, locales);
-  if (!hasLocale(options.fallbackLocale)) throw makeUnknownLocaleError(options.fallbackLocale, locales);
   const notify = () => {
     for (const listener of listeners) listener();
   };
@@ -139,7 +144,9 @@ var createI18n = (options) => {
     t,
     async setLocale(locale) {
       if (!hasLocale(locale)) throw makeUnknownLocaleError(locale, locales);
+      const request = ++localeRequest;
       await loadLocale(locale);
+      if (request !== localeRequest || locale === activeLocale) return;
       activeLocale = locale;
       notify();
     },

@@ -1,14 +1,30 @@
 # Getting Started
 
-Kamod i18n keeps internationalization small and native.
-
-## Example
+Define the schema locale with `as const`, then validate every eager translation against it.
 
 ```ts
-import { createI18n } from '@kamod/i18n'
+import { createI18n, type Messages } from '@kamod/i18n'
 
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
+const en = {
+  common: { save: 'Save' },
+  welcome: 'Welcome {name}',
+  users: { one: '{count} user', other: '{count} users' },
+} as const
+
+const de = {
+  common: { save: 'Speichern' },
+  welcome: 'Willkommen {name}',
+  users: { one: '{count} Benutzer', other: '{count} Benutzer' },
+} satisfies Messages<typeof en>
+
+const i18n = createI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: { en, de },
+})
+
+console.log(i18n.t('welcome', { name: 'Ada' }))
+await i18n.setLocale('de')
 ```
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+The fallback locale is the message schema used to infer valid keys. Both `locale` and `fallbackLocale` must initially reference eager message objects.

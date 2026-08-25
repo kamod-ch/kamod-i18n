@@ -1,14 +1,19 @@
 # Formatting
 
-Kamod i18n keeps internationalization small and native.
-
-## Example
+Formatting uses native `Intl` APIs and the active locale.
 
 ```ts
-import { createI18n } from '@kamod/i18n'
-
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
+i18n.number(12840, { style: 'currency', currency: 'CHF' })
+i18n.date(new Date(), { dateStyle: 'medium' })
+i18n.relativeTime(-2, 'day', { numeric: 'auto' })
+i18n.list(['Preact', 'Otok', 'Kamod'], { type: 'conjunction' })
 ```
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+Methods map directly to:
+
+- `number()` → `Intl.NumberFormat`
+- `date()` → `Intl.DateTimeFormat`
+- `relativeTime()` → `Intl.RelativeTimeFormat`
+- `list()` → `Intl.ListFormat`
+
+Formatter instances are cached by locale and options. Check runtime support or provide polyfills when targeting environments without `Intl.RelativeTimeFormat` or `Intl.ListFormat`. For deterministic SSR output, specify options such as `timeZone` explicitly.

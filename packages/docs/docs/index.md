@@ -1,24 +1,33 @@
 # Kamod i18n Documentation
 
-Kamod i18n is deliberately small. It provides typed message lookup, interpolation, pluralization with native `Intl.PluralRules`, and native formatting APIs.
+Kamod i18n is a small, type-safe internationalization runtime for TypeScript and Preact. It combines synchronous typed message lookup with native `Intl` formatting and optional lazy loading for locale switches.
 
-Pages:
+## Start here
 
-- Introduction
-- Installation
-- Getting Started
-- Translations
-- Interpolation
-- Pluralization
-- Locale Switching
-- Lazy Loading
-- Formatting
-- Preact
-- SSR
-- TypeScript
-- Fallbacks
-- API Reference
+- [Introduction](./introduction)
+- [Installation](./installation)
+- [Getting Started](./getting-started)
+- [Translations](./translations)
+- [TypeScript](./typescript)
 
-## Philosophy
+## Runtime behavior
 
-It does not include translation management, message extraction, a custom ICU runtime, cloud services, or React compatibility layers.
+- [Interpolation](./interpolation)
+- [Pluralization](./pluralization)
+- [Locale Switching](./locale-switching)
+- [Lazy Loading](./lazy-loading)
+- [Fallbacks](./fallbacks)
+- [Formatting](./formatting)
+
+## Integration
+
+- [Preact](./preact)
+- [Server-Side Rendering](./ssr)
+- [API Reference](./api-reference)
+- [Roadmap](./roadmap)
+
+## Important invariant
+
+The initial and fallback locales must be eager message objects. This guarantees that synchronous translation and fallback lookup work during the first client or server render. Other locales may use lazy loaders.
+
+Kamod i18n intentionally excludes translation management, extraction, custom ICU parsing, cloud services, and React compatibility layers.

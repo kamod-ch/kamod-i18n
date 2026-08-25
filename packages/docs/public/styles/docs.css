@@ -1,0 +1,81 @@
+:root {
+  --i18n-accent: #4f46e5;
+  --i18n-accent-soft: color-mix(in srgb, var(--i18n-accent) 12%, transparent);
+}
+
+.i18n-example {
+  margin: 2rem 0;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at 100% 0, var(--i18n-accent-soft), transparent 42%),
+    color-mix(in srgb, currentColor 3%, transparent);
+  box-shadow: 0 1rem 3rem color-mix(in srgb, #000 8%, transparent);
+}
+
+.i18n-example__toolbar,
+.i18n-example__facts > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.i18n-example__toolbar {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.i18n-example__status {
+  font: 600 0.75rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--i18n-accent);
+}
+
+.i18n-example__locales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.i18n-example button {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: 999px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.i18n-example button:hover:not(:disabled),
+.i18n-example button:focus-visible,
+.i18n-example button.is-active {
+  border-color: var(--i18n-accent);
+  background: var(--i18n-accent-soft);
+}
+
+.i18n-example button:disabled { cursor: default; opacity: 0.7; }
+.i18n-example h2 { margin: 1.5rem 0 0.25rem; border: 0; }
+.i18n-example__lead { margin-top: 0; font-size: 1.1rem; }
+
+.i18n-example__facts {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.i18n-example__facts > div {
+  min-height: 3rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.i18n-example__facts span { color: color-mix(in srgb, currentColor 72%, transparent); }
+
+@media (max-width: 640px) {
+  .i18n-example__toolbar,
+  .i18n-example__facts > div { align-items: flex-start; flex-direction: column; }
+}

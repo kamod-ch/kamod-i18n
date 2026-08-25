@@ -7,26 +7,36 @@ const isLocaleLoader = <TMessages>(value: TMessages | (() => unknown)): value is
 const makeUnknownLocaleError = (locale: string, available: readonly string[]) =>
   new Error(`Unknown locale "${locale}". Available locales: ${available.join(', ')}.`)
 
+const makeLazyRequiredLocaleError = (role: 'Initial' | 'Fallback', locale: string) =>
+  new TypeError(
+    `${role} locale "${locale}" must use an eager messages object; locale loaders are only supported for switch targets.`,
+  )
+
 type LocaleKey<TSources> = Extract<keyof TSources, string>
-type SourceSchema<TSource> = TSource extends () => unknown ? never : TSource extends MessageTree ? TSource : never
+type SourceSchema<TSource> = TSource extends MessageTree ? TSource : never
 
 /**
  * Create an isolated i18n runtime. Instances are independent and safe to use per SSR request.
  */
-export const createI18n = <const TSources extends Record<string, LocaleSource<MessageTree>>>(
+export const createI18n = <
+  const TSources extends Record<string, LocaleSource<MessageTree>>,
+  const TInitialLocale extends LocaleKey<TSources>,
+  const TFallbackLocale extends LocaleKey<TSources>,
+>(
   options: {
-    locale: LocaleKey<TSources>
-    fallbackLocale: LocaleKey<TSources>
-    messages: TSources
+    locale: TInitialLocale
+    fallbackLocale: TFallbackLocale
+    messages: TSources & Record<TInitialLocale | TFallbackLocale, MessageTree>
     onMissingKey?: (info: MissingKeyInfo) => void
   },
-): I18n<SourceSchema<TSources[keyof TSources]>, LocaleKey<TSources>> => {
+): I18n<SourceSchema<TSources[TFallbackLocale]>, LocaleKey<TSources>> => {
   const sources = options.messages
   const locales = Object.keys(sources) as LocaleKey<TSources>[]
   const loaded = new Map<string, MessageTree>()
   const pending = new Map<string, Promise<MessageTree>>()
   const listeners = new Set<Listener>()
-  let activeLocale = options.locale
+  let activeLocale: LocaleKey<TSources> = options.locale
+  let localeRequest = 0
 
   const numberFormatter = createFormatterCache<Intl.NumberFormatOptions, Intl.NumberFormat>(
     (locale, formatOptions) => new Intl.NumberFormat(locale, formatOptions),
@@ -54,24 +64,28 @@ export const createI18n = <const TSources extends Record<string, LocaleSource<Me
     if (existing) return existing
 
     const source = sources[locale] as LocaleSource<MessageTree>
-    const promise = Promise.resolve(isLocaleLoader(source) ? source() : source).then((value) => {
-      const messages = normalizeMessages(value)
-      loaded.set(locale, messages)
-      pending.delete(locale)
-      return messages
-    })
+    const promise = Promise.resolve()
+      .then(() => (isLocaleLoader(source) ? source() : source))
+      .then((value) => {
+        const messages = normalizeMessages(value)
+        loaded.set(locale, messages)
+        return messages
+      })
+      .finally(() => pending.delete(locale))
 
     pending.set(locale, promise)
     return promise
   }
 
+  if (!hasLocale(options.locale)) throw makeUnknownLocaleError(options.locale, locales)
+  if (!hasLocale(options.fallbackLocale)) throw makeUnknownLocaleError(options.fallbackLocale, locales)
+  if (isLocaleLoader(sources[options.locale])) throw makeLazyRequiredLocaleError('Initial', options.locale)
+  if (isLocaleLoader(sources[options.fallbackLocale])) throw makeLazyRequiredLocaleError('Fallback', options.fallbackLocale)
+
   for (const locale of locales) {
     const source = sources[locale] as LocaleSource<MessageTree>
     if (!isLocaleLoader(source)) loaded.set(locale, normalizeMessages(source))
   }
-
-  if (!hasLocale(options.locale)) throw makeUnknownLocaleError(options.locale, locales)
-  if (!hasLocale(options.fallbackLocale)) throw makeUnknownLocaleError(options.fallbackLocale, locales)
 
   const notify = () => {
     for (const listener of listeners) listener()
@@ -85,7 +99,7 @@ export const createI18n = <const TSources extends Record<string, LocaleSource<Me
     return { locale: activeLocale }
   }
 
-  const t = (key: MessageKey<SourceSchema<TSources[keyof TSources]>>, values: InterpolationValues = {}): string => {
+  const t = (key: MessageKey<SourceSchema<TSources[TFallbackLocale]>>, values: InterpolationValues = {}): string => {
     const stringKey = String(key)
     const { message, locale } = resolveMessage(stringKey)
 
@@ -116,7 +130,12 @@ export const createI18n = <const TSources extends Record<string, LocaleSource<Me
     t,
     async setLocale(locale) {
       if (!hasLocale(locale)) throw makeUnknownLocaleError(locale, locales)
+
+      const request = ++localeRequest
       await loadLocale(locale)
+
+      // A slower, older request must not overwrite a more recently requested locale.
+      if (request !== localeRequest || locale === activeLocale) return
       activeLocale = locale
       notify()
     },

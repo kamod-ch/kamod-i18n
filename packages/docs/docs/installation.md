@@ -1,14 +1,31 @@
 # Installation
 
-Kamod i18n keeps internationalization small and native.
+Install the core package:
 
-## Example
+```bash
+pnpm add @kamod/i18n
+```
+
+For Preact integration, install Preact as well:
+
+```bash
+pnpm add preact
+```
+
+## Requirements
+
+- ESM-compatible tooling
+- TypeScript 5 or newer is recommended
+- A runtime with the required `Intl` APIs
+
+The core entry point has no runtime dependencies:
 
 ```ts
 import { createI18n } from '@kamod/i18n'
-
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
 ```
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+Preact helpers use a separate entry point:
+
+```ts
+import { I18nProvider, useI18n } from '@kamod/i18n/preact'
+```

@@ -1,14 +1,32 @@
-# Typescript
+# TypeScript
 
-Kamod i18n keeps internationalization small and native.
-
-## Example
+The fallback locale is the canonical message schema:
 
 ```ts
-import { createI18n } from '@kamod/i18n'
+const en = {
+  common: { save: 'Save' },
+  users: { one: '{count} user', other: '{count} users' },
+} as const
 
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
+const de = {
+  common: { save: 'Speichern' },
+  users: { one: '{count} Benutzer', other: '{count} Benutzer' },
+} satisfies Messages<typeof en>
 ```
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+`as const` preserves nested keys and plural shape. `satisfies Messages<typeof en>` verifies another locale without requiring identical literal text.
+
+`createI18n()` infers:
+
+- valid locale names from `messages`
+- valid translation keys from `fallbackLocale`
+- eager initial/fallback locale requirements
+
+```ts
+const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages: { en, de } })
+i18n.t('common.save')       // valid
+i18n.t('common.unknown')    // TypeScript error
+i18n.setLocale('fr')       // TypeScript error
+```
+
+The Preact hooks cannot infer a provider's generic type through context, so pass schema and locale types to `useI18n()` where strict key typing is required.

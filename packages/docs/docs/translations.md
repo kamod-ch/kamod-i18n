@@ -1,14 +1,34 @@
 # Translations
 
-Kamod i18n keeps internationalization small and native.
-
-## Example
+Messages are nested TypeScript objects. Leaves are strings or plural objects.
 
 ```ts
-import { createI18n } from '@kamod/i18n'
-
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
+export const en = {
+  navigation: {
+    home: 'Home',
+    settings: 'Settings',
+  },
+  greeting: 'Hello {name}',
+  notifications: {
+    zero: 'No notifications',
+    one: '{count} notification',
+    other: '{count} notifications',
+  },
+} as const
 ```
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+Nested strings use dot-separated keys:
+
+```ts
+i18n.t('navigation.settings')
+```
+
+Use the fallback locale as the canonical schema:
+
+```ts
+export const de = {
+  // ...
+} satisfies Messages<typeof en>
+```
+
+`Messages<T>` checks structure while allowing translated string values. Missing or incorrectly shaped entries become TypeScript errors. At runtime, a missing entry is looked up through the fallback chain and finally returns its key.

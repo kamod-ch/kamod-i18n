@@ -1,14 +1,32 @@
 # Preact
 
-Kamod i18n keeps internationalization small and native.
+Provide an i18n instance at the application boundary:
 
-## Example
+```tsx
+import { I18nProvider, useI18n, useLocale } from '@kamod/i18n/preact'
 
-```ts
-import { createI18n } from '@kamod/i18n'
+function App() {
+  const { t } = useI18n<typeof en, 'en' | 'de'>()
+  const { locale, locales, setLocale } = useLocale<'en' | 'de'>()
 
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
+  return (
+    <main>
+      <h1>{t('common.title')}</h1>
+      {locales.map((item) => (
+        <button disabled={item === locale} onClick={() => void setLocale(item)}>
+          {item}
+        </button>
+      ))}
+    </main>
+  )
+}
+
+render(
+  <I18nProvider i18n={i18n}>
+    <App />
+  </I18nProvider>,
+  document.getElementById('app')!,
+)
 ```
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+Hooks subscribe to locale changes and rerender consumers. `useI18n()` outside a provider throws an explanatory error. Nested providers are supported and use the nearest instance.

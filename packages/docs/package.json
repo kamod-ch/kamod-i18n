@@ -2,9 +2,21 @@
   "name": "@kamod/i18n-docs",
   "private": true,
   "type": "module",
+  "description": "PreactPress documentation and live example for @kamod/i18n.",
   "scripts": {
-    "build": "echo docs-ready",
-    "typecheck": "echo docs-typecheck-skipped",
-    "test": "echo docs-tests-skipped"
+    "dev": "preactpress dev",
+    "check": "preactpress check",
+    "build": "preactpress build",
+    "preview": "preactpress preview",
+    "typecheck": "tsc --noEmit",
+    "test": "preactpress check"
+  },
+  "dependencies": {
+    "@kamod/i18n": "workspace:*",
+    "preact": "^10.25.3"
+  },
+  "devDependencies": {
+    "@kamod-ch/preactpress": "^2.2.1",
+    "typescript": "^5.7.2"
   }
 }

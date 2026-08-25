@@ -1,14 +1,25 @@
 # Fallbacks
 
-Kamod i18n keeps internationalization small and native.
+Lookup follows this order:
 
-## Example
+1. active locale
+2. its base locale, when applicable (`de-CH` → `de`)
+3. configured fallback locale
+4. the key itself
+
+Duplicate entries are removed from the chain.
 
 ```ts
-import { createI18n } from '@kamod/i18n'
-
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
+const i18n = createI18n({
+  locale: 'de',
+  fallbackLocale: 'en',
+  messages: { en, de },
+  onMissingKey(info) {
+    console.warn(`Missing ${info.key} for ${info.locale}`)
+  },
+})
 ```
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+`onMissingKey` runs only when no message exists anywhere in the loaded chain. It receives the active locale and requested key.
+
+The fallback locale is also the TypeScript schema and must therefore be an eager message object. A base locale participates only when its locale name exists in `messages` and its messages have already been loaded.

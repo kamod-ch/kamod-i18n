@@ -1,14 +1,16 @@
 # Roadmap
 
-Kamod i18n keeps internationalization small and native.
+## v0.1
 
-## Example
+Core lookup, nested typed keys, interpolation, pluralization, native `Intl` formatting, lazy switch targets, fallbacks, Preact hooks, and SSR-safe instances.
 
-```ts
-import { createI18n } from '@kamod/i18n'
+## Planned
 
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
-```
+- Improved interpolation-value inference
+- Namespaces and validation helpers
+- SSR locale-detection utilities
+- Otok middleware, locale routing, and cookie persistence
+- More interactive PreactPress examples
+- Optional translation validation CLI
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+The roadmap is directional rather than a compatibility guarantee. New features should preserve the small runtime and native-API-first design.

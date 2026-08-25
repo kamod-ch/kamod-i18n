@@ -1,14 +1,19 @@
 # Pluralization
 
-Kamod i18n keeps internationalization small and native.
-
-## Example
+A message object containing only plural categories is treated as a plural message. `other` is required.
 
 ```ts
-import { createI18n } from '@kamod/i18n'
+const en = {
+  users: {
+    zero: 'No users',
+    one: '{count} user',
+    other: '{count} users',
+  },
+} as const
 
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages })
-i18n.t('common.save')
+i18n.t('users', { count: 5 })
 ```
 
-See the repository README for the complete API and the Preact Vite example for runnable usage.
+Supported categories are `zero`, `one`, `two`, `few`, `many`, and `other`. Selection uses `Intl.PluralRules` for the active locale. If the selected category is absent, `other` is used.
+
+Pass `count` as a number or bigint. Without a numeric count, Kamod i18n selects `other`. Explicit `zero` is only selected when the locale's `Intl.PluralRules` returns that category; it is not a universal special case for the number `0`.

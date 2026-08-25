@@ -26,5 +26,10 @@ dist-ssr
 tmp/
 ld-templates/
 docs/
+
+# packages/docs is the versioned PreactPress site; ignore only generated output there.
+!packages/docs/
+!packages/docs/**
+
 .autopilot.json
 .cursor 

@@ -74,6 +74,8 @@ const i18n = createI18n({
 })
 ```
 
+The initial and fallback locales must be eager message objects because `t()` and the first render are synchronous. Lazy loaders are supported for switch targets, cached after a successful load, and retried after failures.
+
 ## Pluralization
 
 Plural messages use standard `Intl.PluralRules` categories: `zero`, `one`, `two`, `few`, `many`, and `other`. `other` is required and used as a fallback.

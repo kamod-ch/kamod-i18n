@@ -62,7 +62,21 @@ describe('core', () => {
     await expect(i18n.setLocale('it')).rejects.toThrow('Unknown locale "it"')
   })
 
-  it('lazy loads and caches locales', async () => {
+  it('requires eager initial and fallback locales', () => {
+    const loadDe = () => Promise.resolve({ default: de })
+
+    expect(() => {
+      // @ts-expect-error initial locales cannot be lazy
+      createI18n({ locale: 'de', fallbackLocale: 'en', messages: { en, de: loadDe } })
+    }).toThrow('Initial locale "de" must use an eager messages object')
+
+    expect(() => {
+      // @ts-expect-error fallback locales cannot be lazy
+      createI18n({ locale: 'en', fallbackLocale: 'de', messages: { en, de: loadDe } })
+    }).toThrow('Fallback locale "de" must use an eager messages object')
+  })
+
+  it('lazy loads and caches switch-target locales', async () => {
     const loadDe = vi.fn(async () => ({ default: de }))
     const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages: { en, de: loadDe } })
     await i18n.setLocale('de')
@@ -70,6 +84,46 @@ describe('core', () => {
     await i18n.setLocale('en')
     await i18n.setLocale('de')
     expect(loadDe).toHaveBeenCalledTimes(1)
+  })
+
+  it('retries a lazy locale after a failed load', async () => {
+    const loadDe = vi.fn()
+      .mockRejectedValueOnce(new Error('temporary failure'))
+      .mockResolvedValueOnce({ default: de })
+    const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages: { en, de: loadDe } })
+
+    await expect(i18n.setLocale('de')).rejects.toThrow('temporary failure')
+    await i18n.setLocale('de')
+
+    expect(i18n.locale).toBe('de')
+    expect(loadDe).toHaveBeenCalledTimes(2)
+  })
+
+  it('keeps the latest locale when concurrent loads finish out of order', async () => {
+    let resolveDe!: (value: { default: typeof de }) => void
+    const dePromise = new Promise<{ default: typeof de }>((resolve) => {
+      resolveDe = resolve
+    })
+    const i18n = createI18n({
+      locale: 'en',
+      fallbackLocale: 'en',
+      messages: { en, de: () => dePromise, fr: en },
+    })
+
+    const switchToDe = i18n.setLocale('de')
+    await i18n.setLocale('fr')
+    resolveDe({ default: de })
+    await switchToDe
+
+    expect(i18n.locale).toBe('fr')
+  })
+
+  it('ignores inherited message properties', () => {
+    const inherited = Object.assign(Object.create({ secret: 'not a translation' }) as object, en) as typeof en
+    const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages: { en: inherited } })
+
+    // @ts-expect-error testing runtime lookup for an untyped key
+    expect(i18n.t('secret')).toBe('secret')
   })
 
   it('keeps independent instances isolated for SSR', async () => {
@@ -88,5 +142,14 @@ describe('types', () => {
     i18n.t('common.save')
     // @ts-expect-error unknown key
     i18n.t('does.not.exist')
+  })
+
+  it('uses the fallback locale as the message schema', () => {
+    const extendedDe = { ...de, deOnly: 'Nur Deutsch' } as const
+    const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages: { en, de: extendedDe } })
+
+    i18n.t('common.save')
+    // @ts-expect-error keys that only exist outside the schema locale are invalid
+    i18n.t('deOnly')
   })
 })

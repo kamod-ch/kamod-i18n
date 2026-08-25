@@ -12,7 +12,7 @@ export const getMessage = (messages: MessageTree | undefined, key: string): stri
   if (!messages) return undefined
   let current: unknown = messages
   for (const part of key.split('.')) {
-    if (!isPlainObject(current) || !(part in current)) return undefined
+    if (!isPlainObject(current) || !Object.prototype.hasOwnProperty.call(current, part)) return undefined
     current = current[part]
   }
   return typeof current === 'string' || isPluralMessage(current) ? current : undefined
