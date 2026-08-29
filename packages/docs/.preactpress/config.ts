@@ -1,4 +1,5 @@
-import { dirname, resolve } from 'node:path'
+import fs from 'node:fs/promises'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from '@kamod-ch/preactpress/config'
 
@@ -17,6 +18,12 @@ const matomoImageTracker = `<!-- Matomo Image Tracker-->
 <!-- End Matomo -->`
 const includeMatomoImageTracker = process.env.PREACTPRESS_INCLUDE_MATOMO === 'true'
 
+const faviconFiles = new Map([
+  ['/favicon.svg', { file: 'favicon.svg', type: 'image/svg+xml' }],
+  ['/favicon-32.png', { file: 'favicon-32.png', type: 'image/png' }],
+  ['/favicon.png', { file: 'favicon.png', type: 'image/png' }],
+])
+
 export default defineConfig({
   theme: './theme/Layout.tsx',
   srcExclude: ['README.md', 'components/**', 'dist/**', 'node_modules/**'],
@@ -33,6 +40,9 @@ export default defineConfig({
   },
   head: [
     ['meta', { name: 'theme-color', content: '#4f46e5' }],
+    ['link', { rel: 'icon', href: `${base}favicon.svg`, type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: `${base}favicon-32.png`, type: 'image/png', sizes: '32x32' }],
+    ['link', { rel: 'apple-touch-icon', href: `${base}favicon.png` }],
     ['link', { rel: 'stylesheet', href: `${base}styles/logo.css` }],
     ['link', { rel: 'stylesheet', href: `${base}styles/docs.css` }],
   ],
@@ -41,6 +51,42 @@ export default defineConfig({
     return html.replace('</body>', `  ${matomoImageTracker}\n  </body>`)
   },
   vite: {
+    plugins: [
+      {
+        name: 'kamod-i18n-favicon-dev',
+        enforce: 'pre',
+        configureServer(server) {
+          const serveKamodFavicon = (req, res, next) => {
+            const pathname = req.url?.split('?')[0] ?? ''
+            const favicon = faviconFiles.get(pathname)
+
+            if (!favicon) {
+              next()
+              return
+            }
+
+            void fs
+              .readFile(join(docsRoot, 'public', favicon.file))
+              .then((body) => {
+                res.statusCode = 200
+                res.setHeader('Content-Type', favicon.type)
+                res.setHeader('Cache-Control', 'no-store, max-age=0')
+                res.end(body)
+              })
+              .catch(() => next())
+          }
+
+          // PreactPress registers its own /favicon.* middleware. Put ours at the
+          // very front so dev serves the project favicon, not PreactPress' default.
+          const stack = server.middlewares.stack
+          if (Array.isArray(stack)) {
+            stack.unshift({ route: '', handle: serveKamodFavicon })
+          } else {
+            server.middlewares.use(serveKamodFavicon)
+          }
+        },
+      },
+    ],
     resolve: {
       alias: [
         { find: '@preactpress-theme', replacement: preactpressTheme },
