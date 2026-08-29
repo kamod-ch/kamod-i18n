@@ -15,7 +15,7 @@
     "test": "preactpress check"
   },
   "dependencies": {
-    "@kamod-ch/brand": "file:../../../kamod-brand",
+    "@kamod-ch/brand": "^0.1.0",
     "@kamod-ch/i18n": "workspace:*",
     "preact": "^10.25.3"
   },
