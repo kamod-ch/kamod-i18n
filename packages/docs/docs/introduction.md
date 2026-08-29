@@ -1,6 +1,6 @@
 # Introduction
 
-`@kamod/i18n` is a small, type-safe internationalization runtime for TypeScript and Preact. It provides nested message lookup, interpolation, plural selection, locale switching, lazy loading, fallbacks, and native `Intl` formatting without runtime dependencies.
+`@kamod-ch/i18n` is a small, type-safe internationalization runtime for TypeScript and Preact. It provides nested message lookup, interpolation, plural selection, locale switching, lazy loading, fallbacks, and native `Intl` formatting without runtime dependencies.
 
 ## Design goals
 

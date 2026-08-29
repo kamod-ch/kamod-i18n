@@ -1,9 +1,12 @@
 {
-  "name": "@kamod/i18n-docs",
+  "name": "@kamod-ch/i18n-docs",
   "private": true,
   "type": "module",
-  "description": "PreactPress documentation and live example for @kamod/i18n.",
+  "description": "PreactPress documentation and live example for @kamod-ch/i18n.",
   "scripts": {
+    "brand:sync": "kamod-brand-sync-docs --target public",
+    "predev": "pnpm run brand:sync",
+    "prebuild": "pnpm run brand:sync",
     "dev": "preactpress dev",
     "check": "preactpress check",
     "build": "preactpress build",
@@ -12,7 +15,8 @@
     "test": "preactpress check"
   },
   "dependencies": {
-    "@kamod/i18n": "workspace:*",
+    "@kamod-ch/brand": "^0.1.0",
+    "@kamod-ch/i18n": "workspace:*",
     "preact": "^10.25.3"
   },
   "devDependencies": {

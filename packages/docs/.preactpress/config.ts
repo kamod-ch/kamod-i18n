@@ -3,7 +3,12 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from '@kamod-ch/preactpress/config'
 
 const configDir = dirname(fileURLToPath(import.meta.url))
+const docsRoot = resolve(configDir, '..')
 const i18nSrc = resolve(configDir, '../../i18n/src')
+const preactpressTheme = resolve(
+  docsRoot,
+  'node_modules/@kamod-ch/preactpress/src/client/theme-default',
+)
 const isGithubPages =
   process.env.GITHUB_ACTIONS === 'true' || process.env.KAMOD_DOCS_BASE === 'github-pages'
 const base = isGithubPages ? '/kamod-i18n/' : '/'
@@ -13,6 +18,7 @@ const matomoImageTracker = `<!-- Matomo Image Tracker-->
 const includeMatomoImageTracker = process.env.PREACTPRESS_INCLUDE_MATOMO === 'true'
 
 export default defineConfig({
+  theme: './theme/Layout.tsx',
   srcExclude: ['README.md', 'components/**', 'dist/**', 'node_modules/**'],
   site: {
     title: 'Kamod i18n',
@@ -27,6 +33,7 @@ export default defineConfig({
   },
   head: [
     ['meta', { name: 'theme-color', content: '#4f46e5' }],
+    ['link', { rel: 'stylesheet', href: `${base}styles/logo.css` }],
     ['link', { rel: 'stylesheet', href: `${base}styles/docs.css` }],
   ],
   transformHtml(html) {
@@ -36,20 +43,22 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: [
-        { find: '@kamod/i18n/preact', replacement: resolve(i18nSrc, 'preact.ts') },
-        { find: '@kamod/i18n', replacement: resolve(i18nSrc, 'index.ts') },
+        { find: '@preactpress-theme', replacement: preactpressTheme },
+        { find: '@kamod-ch/i18n/preact', replacement: resolve(i18nSrc, 'preact.ts') },
+        { find: '@kamod-ch/i18n', replacement: resolve(i18nSrc, 'index.ts') },
       ],
       dedupe: ['preact', 'preact/hooks'],
     },
     ssr: {
-      noExternal: ['@kamod/i18n', 'preact'],
+      noExternal: ['@kamod-ch/brand', '@kamod-ch/i18n', 'preact'],
     },
   },
   themeConfig: {
     search: true,
     outline: true,
     lastUpdated: true,
-    footer: 'MIT License · Documentation and live example built with PreactPress.',
+    footer:
+      'Released under the MIT License.\n\nCopyright © 2026 Klaus Zahiragic - www.kamod.ch',
     editLink: {
       text: 'Edit this page',
       pattern: 'https://github.com/kamod-ch/kamod-i18n/edit/main/packages/docs/:path',

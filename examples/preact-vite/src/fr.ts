@@ -1,4 +1,4 @@
-import type { Messages } from '@kamod/i18n'
+import type { Messages } from '@kamod-ch/i18n'
 import type { en } from './locales'
 
 const fr = {

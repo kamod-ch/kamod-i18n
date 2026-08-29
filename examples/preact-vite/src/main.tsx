@@ -1,7 +1,7 @@
 import { render } from 'preact'
 import { useState } from 'preact/hooks'
-import { createI18n } from '@kamod/i18n'
-import { I18nProvider, useI18n } from '@kamod/i18n/preact'
+import { createI18n } from '@kamod-ch/i18n'
+import { I18nProvider, useI18n } from '@kamod-ch/i18n/preact'
 import { de, en } from './locales'
 
 const i18n = createI18n({

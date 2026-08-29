@@ -1,11 +1,35 @@
 {
-  "name": "@kamod/i18n",
+  "name": "@kamod-ch/i18n",
   "version": "0.1.0",
   "description": "Type-safe, Preact-native internationalization with zero runtime dependencies.",
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "localization",
+    "preact",
+    "typescript",
+    "intl",
+    "translations",
+    "tree-shakeable",
+    "ssr",
+    "kamod"
+  ],
   "type": "module",
   "license": "MIT",
+  "homepage": "https://kamod-ch.github.io/kamod-i18n/",
+  "bugs": {
+    "url": "https://github.com/kamod-ch/kamod-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamod-ch/kamod-i18n.git",
+    "directory": "packages/i18n"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false,
-  "files": ["dist"],
+  "files": ["dist", "README.md", "LICENSE"],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,6 +41,7 @@
     }
   },
   "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "peerDependencies": {
     "preact": ">=10.0.0"
@@ -26,6 +51,7 @@
   },
   "scripts": {
     "build": "tsup src/index.ts src/preact.ts --format esm --dts --sourcemap --clean",
+    "prepublishOnly": "pnpm test && pnpm typecheck && pnpm build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   }

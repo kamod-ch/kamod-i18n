@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'preact/hooks'
-import { createI18n, type Messages } from '@kamod/i18n'
-import { I18nProvider, useI18n, useLocale } from '@kamod/i18n/preact'
+import { createI18n, type Messages } from '@kamod-ch/i18n'
+import { I18nProvider, useI18n, useLocale } from '@kamod-ch/i18n/preact'
 
 const en = {
   title: 'A small internationalized app',

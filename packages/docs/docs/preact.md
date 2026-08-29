@@ -3,7 +3,7 @@
 Provide an i18n instance at the application boundary:
 
 ```tsx
-import { I18nProvider, useI18n, useLocale } from '@kamod/i18n/preact'
+import { I18nProvider, useI18n, useLocale } from '@kamod-ch/i18n/preact'
 
 function App() {
   const { t } = useI18n<typeof en, 'en' | 'de'>()

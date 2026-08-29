@@ -8,4 +8,4 @@ export const de = {
   title: 'Kamod i18n Beispiel',
   welcome: 'Willkommen {name}',
   users: { zero: 'Keine Benutzer', one: '{count} Benutzer', other: '{count} Benutzer' },
-} satisfies import('@kamod/i18n').Messages<typeof en>
+} satisfies import('@kamod-ch/i18n').Messages<typeof en>

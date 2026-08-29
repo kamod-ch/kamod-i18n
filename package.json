@@ -5,18 +5,25 @@
   "type": "module",
   "packageManager": "pnpm@10.0.0",
   "scripts": {
+    "prepublishOnly": "node -e \"console.error('Do not publish the workspace root. Use: pnpm publish:core'); process.exit(1)\"",
     "build": "pnpm -r build",
-    "docs:dev": "pnpm --filter @kamod/i18n-docs dev",
+    "build:core": "pnpm --filter @kamod-ch/i18n build",
+    "docs:dev": "pnpm --filter @kamod-ch/i18n-docs dev",
     "dev:docs": "pnpm docs:dev",
-    "docs:build": "pnpm --filter @kamod/i18n-docs build",
+    "docs:build": "pnpm --filter @kamod-ch/i18n-docs build",
     "build:docs": "pnpm docs:build",
-    "docs:check": "pnpm --filter @kamod/i18n-docs check",
+    "docs:check": "pnpm --filter @kamod-ch/i18n-docs check",
     "check:docs": "pnpm docs:check",
-    "docs:preview": "pnpm --filter @kamod/i18n-docs preview",
+    "docs:preview": "pnpm --filter @kamod-ch/i18n-docs preview",
     "preview:docs": "pnpm docs:preview",
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "test:core": "pnpm --filter @kamod-ch/i18n test",
+    "typecheck:core": "pnpm --filter @kamod-ch/i18n typecheck",
+    "verify": "pnpm typecheck && pnpm test && pnpm build && pnpm docs:check",
+    "pack:core": "pnpm --filter @kamod-ch/i18n exec npm pack --dry-run",
+    "publish:core": "pnpm --filter @kamod-ch/i18n publish --access public"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["esbuild"]

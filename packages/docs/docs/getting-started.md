@@ -3,7 +3,7 @@
 Define the schema locale with `as const`, then validate every eager translation against it.
 
 ```ts
-import { createI18n, type Messages } from '@kamod/i18n'
+import { createI18n, type Messages } from '@kamod-ch/i18n'
 
 const en = {
   common: { save: 'Save' },
