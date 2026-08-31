@@ -1,5 +1,6 @@
 import type { ComponentChildren, FunctionalComponent, JSX } from "preact";
 import type { LayoutProps } from "@kamod-ch/preactpress/client";
+import { flattenSidebarLeafItems, resolveSidebarForRoute } from "@kamod-ch/preactpress/shared";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import Logo from "./Logo.js";
 import ThemeToggle from "./ThemeToggle.js";
@@ -74,21 +75,22 @@ function createMdxHeadingComponents() {
   };
 }
 
-const Layout: FunctionalComponent<LayoutProps> = ({ site, themeConfig, routePath, page }) => {
+const Layout: FunctionalComponent<LayoutProps> = ({ site, themeConfig, routePath, page, i18n }) => {
   const title = page?.title ? `${page.title} | ${site.title}` : site.title;
   const [query, setQuery] = useState("");
   const [activeHeading, setActiveHeading] = useState<string | undefined>();
-  const sidebarItems = (themeConfig.sidebar ?? []).flatMap((group) => group.items);
+  const activeSidebar = resolveSidebarForRoute(themeConfig.sidebar, routePath, i18n);
+  const sidebarItems = activeSidebar.flatMap((group) => flattenSidebarLeafItems(group.items));
   const normalizedQuery = query.trim().toLowerCase();
   const visibleSidebar = useMemo(() => {
-    if (!normalizedQuery) return themeConfig.sidebar ?? [];
-    return (themeConfig.sidebar ?? [])
+    if (!normalizedQuery) return activeSidebar;
+    return activeSidebar
       .map((group) => ({
         ...group,
         items: group.items.filter((item) => item.text.toLowerCase().includes(normalizedQuery)),
       }))
       .filter((group) => group.items.length > 0);
-  }, [normalizedQuery, themeConfig.sidebar]);
+  }, [normalizedQuery, activeSidebar]);
   const activeIndex = sidebarItems.findIndex((item) => isExactMatch(routePath, item.link));
   const previous = activeIndex > 0 ? sidebarItems[activeIndex - 1] : undefined;
   const next =
@@ -144,6 +146,7 @@ const Layout: FunctionalComponent<LayoutProps> = ({ site, themeConfig, routePath
           <div class="pp-nav-right">
             <nav class="pp-nav-links">
               {(themeConfig.nav ?? []).map((item) => {
+                if (!item.link) return null;
                 const active = isActive(routePath, item.link);
                 return (
                   <a
@@ -176,13 +179,16 @@ const Layout: FunctionalComponent<LayoutProps> = ({ site, themeConfig, routePath
               </label>
             ) : null}
             {visibleSidebar.map((group, gi) => {
-              const groupHasActiveItem = group.items.some((item) => isActive(routePath, item.link));
+              const groupHasActiveItem = group.items.some(
+                (item) => item.link !== undefined && isActive(routePath, item.link),
+              );
               const groupOpen = Boolean(normalizedQuery) || groupHasActiveItem || gi === 0;
               return (
                 <details key={gi} class="pp-sidebar-group" open={groupOpen}>
                   {group.text ? <summary class="pp-sidebar-heading">{group.text}</summary> : null}
                   <ul>
                     {group.items.map((it) => {
+                      if (!it.link) return null;
                       const active = isActive(routePath, it.link);
                       return (
                         <li key={it.link}>

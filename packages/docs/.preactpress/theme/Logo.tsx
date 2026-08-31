@@ -8,7 +8,12 @@ interface LogoProps {
 }
 
 const Logo: FunctionalComponent<LogoProps> = ({ class: className, label, base = "/" }) => (
-  <KamodProductLogo class={className} label={label} base={base} suffix="i18n" />
+  <KamodProductLogo
+    {...(className !== undefined ? { class: className } : {})}
+    label={label}
+    base={base}
+    suffix="i18n"
+  />
 );
 
 export default Logo;
