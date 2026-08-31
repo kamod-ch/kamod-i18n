@@ -25,7 +25,13 @@
     "typecheck:core": "pnpm --filter @kamod-ch/i18n typecheck",
     "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm build && pnpm docs:check",
     "pack:core": "pnpm --filter @kamod-ch/i18n exec npm pack --dry-run",
-    "publish:core": "pnpm --filter @kamod-ch/i18n publish --access public"
+    "publish:core": "pnpm --filter @kamod-ch/i18n publish --access public",
+    "release:check": "pnpm verify",
+    "release:publish": "pnpm --filter @kamod-ch/i18n publish --access public --provenance --no-git-checks",
+    "release": "node ./scripts/release.mjs patch",
+    "release:minor": "node ./scripts/release.mjs minor",
+    "release:major": "node ./scripts/release.mjs major",
+    "release:dry": "node ./scripts/release.mjs patch --dry"
   },
   "devDependencies": {
     "@testing-library/preact": "^3.2.4",
