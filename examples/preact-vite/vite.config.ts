@@ -1,3 +1,3 @@
-import preact from '@preact/preset-vite'
+import preact from "@preact/preset-vite";
 
-export default { plugins: [preact() as unknown] }
+export default { plugins: [preact() as unknown] };

@@ -26,37 +26,37 @@ pnpm add preact # only when using @kamod-ch/i18n/preact
 ## Quick Start
 
 ```ts
-import { createI18n, type Messages } from '@kamod-ch/i18n'
+import { createI18n, type Messages } from "@kamod-ch/i18n";
 
 export const en = {
-  common: { save: 'Save', cancel: 'Cancel' },
+  common: { save: "Save", cancel: "Cancel" },
   dashboard: {
-    welcome: 'Welcome {name}',
-    users: { zero: 'No users', one: '{count} user', other: '{count} users' },
+    welcome: "Welcome {name}",
+    users: { zero: "No users", one: "{count} user", other: "{count} users" },
   },
-} as const
+} as const;
 
 export const de = {
-  common: { save: 'Speichern', cancel: 'Abbrechen' },
+  common: { save: "Speichern", cancel: "Abbrechen" },
   dashboard: {
-    welcome: 'Willkommen {name}',
-    users: { zero: 'Keine Benutzer', one: '{count} Benutzer', other: '{count} Benutzer' },
+    welcome: "Willkommen {name}",
+    users: { zero: "Keine Benutzer", one: "{count} Benutzer", other: "{count} Benutzer" },
   },
-} satisfies Messages<typeof en>
+} satisfies Messages<typeof en>;
 
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages: { en, de } })
+const i18n = createI18n({ locale: "en", fallbackLocale: "en", messages: { en, de } });
 
-i18n.t('dashboard.welcome', { name: 'Klaus' })
+i18n.t("dashboard.welcome", { name: "Klaus" });
 ```
 
 ## Preact
 
 ```tsx
-import { I18nProvider, useI18n } from '@kamod-ch/i18n/preact'
+import { I18nProvider, useI18n } from "@kamod-ch/i18n/preact";
 
 function App() {
-  const { t, setLocale } = useI18n<typeof en, 'en' | 'de'>()
-  return <button onClick={() => void setLocale('de')}>{t('common.save')}</button>
+  const { t, setLocale } = useI18n<typeof en, "en" | "de">();
+  return <button onClick={() => void setLocale("de")}>{t("common.save")}</button>;
 }
 ```
 
@@ -64,14 +64,14 @@ function App() {
 
 ```ts
 const i18n = createI18n({
-  locale: 'en',
-  fallbackLocale: 'en',
+  locale: "en",
+  fallbackLocale: "en",
   messages: {
     en,
-    de: () => import('./locales/de'), // default export preferred
-    fr: () => import('./locales/fr'),
+    de: () => import("./locales/de"), // default export preferred
+    fr: () => import("./locales/fr"),
   },
-})
+});
 ```
 
 The initial and fallback locales must be eager message objects because `t()` and the first render are synchronous. Lazy loaders are supported for switch targets, cached after a successful load, and retried after failures.
@@ -81,16 +81,16 @@ The initial and fallback locales must be eager message objects because `t()` and
 Plural messages use standard `Intl.PluralRules` categories: `zero`, `one`, `two`, `few`, `many`, and `other`. `other` is required and used as a fallback.
 
 ```ts
-i18n.t('dashboard.users', { count: 5 })
+i18n.t("dashboard.users", { count: 5 });
 ```
 
 ## Formatting
 
 ```ts
-i18n.number(12840, { style: 'currency', currency: 'CHF' })
-i18n.date(new Date(), { dateStyle: 'medium' })
-i18n.relativeTime(-2, 'day')
-i18n.list(['Preact', 'Otok', 'Kamod'])
+i18n.number(12840, { style: "currency", currency: "CHF" });
+i18n.date(new Date(), { dateStyle: "medium" });
+i18n.relativeTime(-2, "day");
+i18n.list(["Preact", "Otok", "Kamod"]);
 ```
 
 ## SSR
@@ -99,8 +99,8 @@ Create one i18n instance per request. There is no global mutable locale state.
 
 ```ts
 function handleRequest(request) {
-  const i18n = createI18n({ locale: detectLocale(request), fallbackLocale: 'en', messages })
-  return renderApp({ request, i18n })
+  const i18n = createI18n({ locale: detectLocale(request), fallbackLocale: "en", messages });
+  return renderApp({ request, i18n });
 }
 ```
 

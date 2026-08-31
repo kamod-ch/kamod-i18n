@@ -1,9 +1,8 @@
 {
   "name": "kamod-i18n",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.0.0",
   "scripts": {
     "prepublishOnly": "node -e \"console.error('Do not publish the workspace root. Use: pnpm publish:core'); process.exit(1)\"",
     "build": "pnpm -r build",
@@ -16,32 +15,35 @@
     "check:docs": "pnpm docs:check",
     "docs:preview": "pnpm --filter @kamod-ch/i18n-docs preview",
     "preview:docs": "pnpm docs:preview",
-    "lint": "eslint .",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "test:core": "pnpm --filter @kamod-ch/i18n test",
     "typecheck:core": "pnpm --filter @kamod-ch/i18n typecheck",
-    "verify": "pnpm typecheck && pnpm test && pnpm build && pnpm docs:check",
+    "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm build && pnpm docs:check",
     "pack:core": "pnpm --filter @kamod-ch/i18n exec npm pack --dry-run",
     "publish:core": "pnpm --filter @kamod-ch/i18n publish --access public"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
-  },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
     "@testing-library/preact": "^3.2.4",
     "@types/node": "^22.10.2",
     "@vitest/coverage-v8": "^2.1.8",
-    "eslint": "^9.17.0",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "globals": "^15.14.0",
     "jsdom": "^25.0.1",
+    "oxfmt": "^0.54.0",
+    "oxlint": "^1.69.0",
     "preact": "^10.25.3",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",
     "vitest": "^2.1.8"
+  },
+  "packageManager": "pnpm@10.0.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

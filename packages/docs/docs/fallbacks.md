@@ -11,13 +11,13 @@ Duplicate entries are removed from the chain.
 
 ```ts
 const i18n = createI18n({
-  locale: 'de',
-  fallbackLocale: 'en',
+  locale: "de",
+  fallbackLocale: "en",
   messages: { en, de },
   onMissingKey(info) {
-    console.warn(`Missing ${info.key} for ${info.locale}`)
+    console.warn(`Missing ${info.key} for ${info.locale}`);
   },
-})
+});
 ```
 
 `onMissingKey` runs only when no message exists anywhere in the loaded chain. It receives the active locale and requested key.

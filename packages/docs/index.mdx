@@ -3,7 +3,7 @@ title: Kamod i18n
 description: Type-safe translations, native Intl formatting, and a Preact-first integration in one small package.
 ---
 
-import I18nExample from './components/I18nExample'
+import I18nExample from "./components/I18nExample";
 
 # Internationalization you can try, not just read about
 
@@ -22,30 +22,34 @@ This PreactPress site is both the documentation for `@kamod-ch/i18n` and a worki
 ## The same setup in your app
 
 ```tsx
-import { createI18n } from '@kamod-ch/i18n'
-import { I18nProvider, useI18n } from '@kamod-ch/i18n/preact'
+import { createI18n } from "@kamod-ch/i18n";
+import { I18nProvider, useI18n } from "@kamod-ch/i18n/preact";
 
 const en = {
-  greeting: 'Welcome, {name}!',
-  users: { one: '{count} user', other: '{count} users' },
-} as const
+  greeting: "Welcome, {name}!",
+  users: { one: "{count} user", other: "{count} users" },
+} as const;
 
 const i18n = createI18n({
-  locale: 'en',
-  fallbackLocale: 'en',
+  locale: "en",
+  fallbackLocale: "en",
   messages: {
     en,
-    de: () => import('./locales/de'),
+    de: () => import("./locales/de"),
   },
-})
+});
 
 function Greeting() {
-  const { t } = useI18n<typeof en, 'en' | 'de'>()
-  return <p>{t('greeting', { name: 'Ada' })}</p>
+  const { t } = useI18n<typeof en, "en" | "de">();
+  return <p>{t("greeting", { name: "Ada" })}</p>;
 }
 
 export function App() {
-  return <I18nProvider i18n={i18n}><Greeting /></I18nProvider>
+  return (
+    <I18nProvider i18n={i18n}>
+      <Greeting />
+    </I18nProvider>
+  );
 }
 ```
 

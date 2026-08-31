@@ -4,14 +4,14 @@ Create one i18n instance per request. Instances contain mutable locale state and
 
 ```ts
 function handleRequest(request: Request) {
-  const locale = detectLocale(request)
+  const locale = detectLocale(request);
   const i18n = createI18n({
     locale,
-    fallbackLocale: 'en',
+    fallbackLocale: "en",
     messages: { en, de },
-  })
+  });
 
-  return renderApp({ request, i18n })
+  return renderApp({ request, i18n });
 }
 ```
 

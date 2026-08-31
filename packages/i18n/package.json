@@ -5,31 +5,35 @@
   "keywords": [
     "i18n",
     "internationalization",
+    "intl",
+    "kamod",
     "localization",
     "preact",
-    "typescript",
-    "intl",
+    "ssr",
     "translations",
     "tree-shakeable",
-    "ssr",
-    "kamod"
+    "typescript"
   ],
-  "type": "module",
-  "license": "MIT",
   "homepage": "https://kamod-ch.github.io/kamod-i18n/",
   "bugs": {
     "url": "https://github.com/kamod-ch/kamod-i18n/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kamod-ch/kamod-i18n.git",
     "directory": "packages/i18n"
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "module",
   "sideEffects": false,
-  "files": ["dist", "README.md", "LICENSE"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -40,19 +44,21 @@
       "import": "./dist/preact.js"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "peerDependencies": {
-    "preact": ">=10.0.0"
-  },
-  "peerDependenciesMeta": {
-    "preact": { "optional": true }
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsup src/index.ts src/preact.ts --format esm --dts --sourcemap --clean",
     "prepublishOnly": "pnpm test && pnpm typecheck && pnpm build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
+  },
+  "peerDependencies": {
+    "preact": ">=10.0.0"
+  },
+  "peerDependenciesMeta": {
+    "preact": {
+      "optional": true
+    }
   }
 }

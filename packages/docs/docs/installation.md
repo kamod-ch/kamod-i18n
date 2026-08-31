@@ -21,11 +21,11 @@ pnpm add preact
 The core entry point has no runtime dependencies:
 
 ```ts
-import { createI18n } from '@kamod-ch/i18n'
+import { createI18n } from "@kamod-ch/i18n";
 ```
 
 Preact helpers use a separate entry point:
 
 ```ts
-import { I18nProvider, useI18n } from '@kamod-ch/i18n/preact'
+import { I18nProvider, useI18n } from "@kamod-ch/i18n/preact";
 ```

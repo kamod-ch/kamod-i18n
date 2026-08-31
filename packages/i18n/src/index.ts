@@ -1,4 +1,4 @@
-export { createI18n } from './core/create-i18n'
+export { createI18n } from "./core/create-i18n";
 export type {
   CreateI18nOptions,
   I18n,
@@ -11,4 +11,4 @@ export type {
   PluralCategory,
   PluralMessage,
   Unsubscribe,
-} from './core/types'
+} from "./core/types";

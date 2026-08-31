@@ -1,8 +1,8 @@
 {
   "name": "@kamod-ch/i18n-docs",
   "private": true,
-  "type": "module",
   "description": "PreactPress documentation and live example for @kamod-ch/i18n.",
+  "type": "module",
   "scripts": {
     "brand:sync": "kamod-brand-sync-docs --target public",
     "predev": "pnpm run brand:sync",

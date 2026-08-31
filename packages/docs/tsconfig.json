@@ -6,5 +6,10 @@
     "sourceMap": false,
     "types": ["node"]
   },
-  "include": [".preactpress/**/*.ts", ".preactpress/**/*.tsx", "components/**/*.ts", "components/**/*.tsx"]
+  "include": [
+    ".preactpress/**/*.ts",
+    ".preactpress/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx"
+  ]
 }

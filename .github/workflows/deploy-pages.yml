@@ -40,7 +40,7 @@ jobs:
         run: pnpm docs:build
         env:
           KAMOD_DOCS_BASE: github-pages
-          PREACTPRESS_INCLUDE_MATOMO: 'true'
+          PREACTPRESS_INCLUDE_MATOMO: "true"
 
       - name: Add .nojekyll
         run: touch packages/docs/dist/.nojekyll

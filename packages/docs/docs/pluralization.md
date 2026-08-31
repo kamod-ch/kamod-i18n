@@ -5,13 +5,13 @@ A message object containing only plural categories is treated as a plural messag
 ```ts
 const en = {
   users: {
-    zero: 'No users',
-    one: '{count} user',
-    other: '{count} users',
+    zero: "No users",
+    one: "{count} user",
+    other: "{count} users",
   },
-} as const
+} as const;
 
-i18n.t('users', { count: 5 })
+i18n.t("users", { count: 5 });
 ```
 
 Supported categories are `zero`, `one`, `two`, `few`, `many`, and `other`. Selection uses `Intl.PluralRules` for the active locale. If the selected category is absent, `other` is used.
