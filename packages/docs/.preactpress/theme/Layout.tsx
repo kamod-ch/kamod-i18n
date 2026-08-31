@@ -2,6 +2,7 @@ import type { ComponentChildren, FunctionalComponent, JSX } from "preact";
 import type { LayoutProps } from "@kamod-ch/preactpress/client";
 import { flattenSidebarLeafItems, resolveSidebarForRoute } from "@kamod-ch/preactpress/shared";
 import { useEffect, useMemo, useState } from "preact/hooks";
+import FaviconSync from "./FaviconSync.js";
 import Logo from "./Logo.js";
 import ThemeToggle from "./ThemeToggle.js";
 import "./style.css";
@@ -135,6 +136,7 @@ const Layout: FunctionalComponent<LayoutProps> = ({ site, themeConfig, routePath
 
   return (
     <div class="pp-layout">
+      <FaviconSync base={site.base} />
       <a class="pp-skip-link" href="#content">
         Skip to content
       </a>
