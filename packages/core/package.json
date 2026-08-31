@@ -1,6 +1,6 @@
 {
   "name": "@kamod-ch/i18n",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Type-safe, Preact-native internationalization with zero runtime dependencies.",
   "keywords": [
     "i18n",
