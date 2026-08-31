@@ -1,6 +1,6 @@
 import * as preact from 'preact';
 import { ComponentChildren } from 'preact';
-import { M as MessageTree, I as I18n } from './types-dywHm-5t.js';
+import { M as MessageTree, I as I18n } from './types-BOiAhndp.js';
 
 interface I18nProviderProps<TSchema extends MessageTree = MessageTree, TLocale extends string = string> {
     i18n: I18n<TSchema, TLocale>;

@@ -1,5 +1,5 @@
-import { L as LocaleSource, M as MessageTree, a as MissingKeyInfo, I as I18n } from './types-dywHm-5t.js';
-export { C as CreateI18nOptions, b as InterpolationValues, c as Listener, d as MessageKey, e as Messages, P as PluralCategory, f as PluralMessage, U as Unsubscribe } from './types-dywHm-5t.js';
+import { L as LocaleSource, M as MessageTree, a as MissingKeyInfo, I as I18n } from './types-BOiAhndp.js';
+export { C as CreateI18nOptions, b as InterpolationValues, c as Listener, d as MessageKey, e as Messages, P as PluralCategory, f as PluralMessage, U as Unsubscribe } from './types-BOiAhndp.js';
 
 type LocaleKey<TSources> = Extract<keyof TSources, string>;
 type SourceSchema<TSource> = TSource extends MessageTree ? TSource : never;

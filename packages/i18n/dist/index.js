@@ -29,7 +29,8 @@ var getMessage = (messages, key) => {
   if (!messages) return void 0;
   let current = messages;
   for (const part of key.split(".")) {
-    if (!isPlainObject(current) || !Object.prototype.hasOwnProperty.call(current, part)) return void 0;
+    if (!isPlainObject(current) || !Object.prototype.hasOwnProperty.call(current, part))
+      return void 0;
     current = current[part];
   }
   return typeof current === "string" || isPluralMessage(current) ? current : void 0;
@@ -41,7 +42,9 @@ var interpolate = (template, values = {}) => template.replace(/\{([A-Za-z_$][\w$
 var normalizeMessages = (moduleValue) => {
   const candidate = isPlainObject(moduleValue) && "default" in moduleValue ? moduleValue.default : moduleValue;
   if (!isPlainObject(candidate)) {
-    throw new TypeError("Locale loader must resolve to a messages object or a module with a default export.");
+    throw new TypeError(
+      "Locale loader must resolve to a messages object or a module with a default export."
+    );
   }
   return candidate;
 };
@@ -77,9 +80,7 @@ var createI18n = (options) => {
   const dateFormatter = createFormatterCache(
     (locale, formatOptions) => new Intl.DateTimeFormat(locale, formatOptions)
   );
-  const relativeTimeFormatter = createFormatterCache(
-    (locale, formatOptions) => new Intl.RelativeTimeFormat(locale, formatOptions)
-  );
+  const relativeTimeFormatter = createFormatterCache((locale, formatOptions) => new Intl.RelativeTimeFormat(locale, formatOptions));
   const listFormatter = createFormatterCache(
     (locale, formatOptions) => new Intl.ListFormat(locale, formatOptions)
   );
@@ -102,9 +103,12 @@ var createI18n = (options) => {
     return promise;
   };
   if (!hasLocale(options.locale)) throw makeUnknownLocaleError(options.locale, locales);
-  if (!hasLocale(options.fallbackLocale)) throw makeUnknownLocaleError(options.fallbackLocale, locales);
-  if (isLocaleLoader(sources[options.locale])) throw makeLazyRequiredLocaleError("Initial", options.locale);
-  if (isLocaleLoader(sources[options.fallbackLocale])) throw makeLazyRequiredLocaleError("Fallback", options.fallbackLocale);
+  if (!hasLocale(options.fallbackLocale))
+    throw makeUnknownLocaleError(options.fallbackLocale, locales);
+  if (isLocaleLoader(sources[options.locale]))
+    throw makeLazyRequiredLocaleError("Initial", options.locale);
+  if (isLocaleLoader(sources[options.fallbackLocale]))
+    throw makeLazyRequiredLocaleError("Fallback", options.fallbackLocale);
   for (const locale of locales) {
     const source = sources[locale];
     if (!isLocaleLoader(source)) loaded.set(locale, normalizeMessages(source));
