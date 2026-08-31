@@ -5,7 +5,7 @@ import { defineConfig } from "@kamod-ch/preactpress/config";
 
 const configDir = dirname(fileURLToPath(import.meta.url));
 const docsRoot = resolve(configDir, "..");
-const i18nSrc = resolve(configDir, "../../i18n/src");
+const i18nSrc = resolve(configDir, "../../core/src");
 const preactpressTheme = resolve(
   docsRoot,
   "node_modules/@kamod-ch/preactpress/src/client/theme-default",

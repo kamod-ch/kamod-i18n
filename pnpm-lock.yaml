@@ -46,7 +46,7 @@ importers:
     dependencies:
       '@kamod-ch/i18n':
         specifier: workspace:*
-        version: link:../../packages/i18n
+        version: link:../../packages/core
       preact:
         specifier: ^10.25.3
         version: 10.29.8(preact-render-to-string@6.7.0)
@@ -55,6 +55,12 @@ importers:
         specifier: ^2.9.3
         version: 2.10.6(@babel/core@7.29.7)(preact@10.29.8)(rollup@4.62.5)(vite@8.2.2(@types/node@22.20.1)(esbuild@0.27.7))
 
+  packages/core:
+    dependencies:
+      preact:
+        specifier: '>=10.0.0'
+        version: 10.29.8(preact-render-to-string@6.7.0)
+
   packages/docs:
     dependencies:
       '@kamod-ch/brand':
@@ -62,7 +68,7 @@ importers:
         version: 0.1.0(preact@10.29.8)
       '@kamod-ch/i18n':
         specifier: workspace:*
-        version: link:../i18n
+        version: link:../core
       preact:
         specifier: ^10.25.3
         version: 10.29.8(preact-render-to-string@6.7.0)
@@ -73,12 +79,6 @@ importers:
       typescript:
         specifier: ^5.7.2
         version: 5.9.3
-
-  packages/i18n:
-    dependencies:
-      preact:
-        specifier: '>=10.0.0'
-        version: 10.29.8(preact-render-to-string@6.7.0)
 
 packages:
 
