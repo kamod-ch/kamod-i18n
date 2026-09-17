@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@kamod-ch/brand':
+        specifier: ^0.1.9
+        version: 0.1.9(preact@10.29.8)
       '@testing-library/preact':
         specifier: ^3.2.4
         version: 3.2.4(preact@10.29.8)
