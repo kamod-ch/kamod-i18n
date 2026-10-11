@@ -10,6 +10,7 @@
 
 .pp-logo {
   --kamod-brand-orange: #f9a01b;
+  --kamod-logo-suffix: var(--kamod-brand-orange);
 }
 
 .kh-theme-toggle {

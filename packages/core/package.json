@@ -53,6 +53,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
+  "devDependencies": {
+    "preact": "^11.0.1"
+  },
   "peerDependencies": {
     "preact": ">=10.0.0"
   },

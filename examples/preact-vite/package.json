@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@kamod-ch/i18n": "workspace:*",
-    "preact": "^10.25.3"
+    "preact": "^11.0.1"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.9.3"
+    "@preact/preset-vite": "^2.10.6",
+    "vite": "^8.3.4"
   }
 }

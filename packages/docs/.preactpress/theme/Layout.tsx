@@ -1,8 +1,8 @@
-import type { ComponentChildren, FunctionalComponent, JSX } from "preact";
+import type { ComponentChildren, FunctionalComponent, HeadingHTMLAttributes } from "preact";
 import type { LayoutProps } from "@kamod-ch/preactpress/client";
 import { flattenSidebarLeafItems, resolveSidebarForRoute } from "@kamod-ch/preactpress/shared";
 import { useEffect, useMemo, useState } from "preact/hooks";
-import FaviconSync from "./FaviconSync.js";
+import { FaviconSync } from "@kamod-ch/brand";
 import Logo from "./Logo.js";
 import ThemeToggle from "./ThemeToggle.js";
 import "./style.css";
@@ -55,7 +55,7 @@ function createMdxHeadingComponents() {
   const used = new Map<string, number>();
   const heading =
     (Tag: "h2" | "h3") =>
-    ({ children, ...props }: JSX.HTMLAttributes<HTMLHeadingElement>) => {
+    ({ children, ...props }: HeadingHTMLAttributes<HTMLHeadingElement>) => {
       const base = slugify(childText(children));
       const count = used.get(base) ?? 0;
       used.set(base, count + 1);

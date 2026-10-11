@@ -22,21 +22,21 @@
 Type-safe, Preact-native internationalization with zero runtime dependencies.
 
 ```ts
-import { createI18n, type Messages } from '@kamod-ch/i18n'
+import { createI18n, type Messages } from "@kamod-ch/i18n";
 
 const en = {
-  common: { save: 'Save' },
-  dashboard: { welcome: 'Welcome {name}' },
-} as const
+  common: { save: "Save" },
+  dashboard: { welcome: "Welcome {name}" },
+} as const;
 
 const de = {
-  common: { save: 'Speichern' },
-  dashboard: { welcome: 'Willkommen {name}' },
-} satisfies Messages<typeof en>
+  common: { save: "Speichern" },
+  dashboard: { welcome: "Willkommen {name}" },
+} satisfies Messages<typeof en>;
 
-const i18n = createI18n({ locale: 'en', fallbackLocale: 'en', messages: { en, de } })
+const i18n = createI18n({ locale: "en", fallbackLocale: "en", messages: { en, de } });
 
-i18n.t('dashboard.welcome', { name: 'Klaus' })
+i18n.t("dashboard.welcome", { name: "Klaus" });
 ```
 
 Zero runtime dependencies in the core. Preact is an optional peer dependency for `@kamod-ch/i18n/preact`.

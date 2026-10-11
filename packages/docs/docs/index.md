@@ -4,27 +4,27 @@ Kamod i18n is a small, type-safe internationalization runtime for TypeScript and
 
 ## Start here
 
-- [Introduction](./introduction)
-- [Installation](./installation)
-- [Getting Started](./getting-started)
-- [Translations](./translations)
-- [TypeScript](./typescript)
+- [Introduction](/docs/introduction)
+- [Installation](/docs/installation)
+- [Getting Started](/docs/getting-started)
+- [Translations](/docs/translations)
+- [TypeScript](/docs/typescript)
 
 ## Runtime behavior
 
-- [Interpolation](./interpolation)
-- [Pluralization](./pluralization)
-- [Locale Switching](./locale-switching)
-- [Lazy Loading](./lazy-loading)
-- [Fallbacks](./fallbacks)
-- [Formatting](./formatting)
+- [Interpolation](/docs/interpolation)
+- [Pluralization](/docs/pluralization)
+- [Locale Switching](/docs/locale-switching)
+- [Lazy Loading](/docs/lazy-loading)
+- [Fallbacks](/docs/fallbacks)
+- [Formatting](/docs/formatting)
 
 ## Integration
 
-- [Preact](./preact)
-- [Server-Side Rendering](./ssr)
-- [API Reference](./api-reference)
-- [Roadmap](./roadmap)
+- [Preact](/docs/preact)
+- [Server-Side Rendering](/docs/ssr)
+- [API Reference](/docs/api-reference)
+- [Roadmap](/docs/roadmap)
 
 ## Important invariant
 

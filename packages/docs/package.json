@@ -15,12 +15,12 @@
     "test": "preactpress check"
   },
   "dependencies": {
-    "@kamod-ch/brand": "^0.1.9",
+    "@kamod-ch/brand": "^0.4.0",
     "@kamod-ch/i18n": "workspace:*",
-    "preact": "^10.25.3"
+    "preact": "^11.0.1"
   },
   "devDependencies": {
-    "@kamod-ch/preactpress": "^2.2.1",
-    "typescript": "^5.7.2"
+    "@kamod-ch/preactpress": "^3.0.1",
+    "typescript": "^5.9.3"
   }
 }
