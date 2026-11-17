@@ -3,7 +3,7 @@ import {
   type InterpolationValues,
   type MessageTree,
   type PluralMessage,
-} from "./types";
+} from "./types.js";
 
 export const isPlainObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);

@@ -1,0 +1,17 @@
+import { type ComponentChildren } from "preact";
+import type { I18n, MessageTree } from "../core/types.js";
+export interface I18nProviderProps<TSchema extends MessageTree = MessageTree, TLocale extends string = string> {
+    i18n: I18n<TSchema, TLocale>;
+    children: ComponentChildren;
+}
+export interface UseLocaleResult<TLocale extends string = string> {
+    locale: TLocale;
+    locales: readonly TLocale[];
+    setLocale: (locale: TLocale) => Promise<void>;
+}
+/** Provide an i18n instance to Preact components. */
+export declare function I18nProvider<TSchema extends MessageTree, TLocale extends string>({ i18n, children, }: I18nProviderProps<TSchema, TLocale>): import("preact").JSX.Element;
+/** Read the current i18n instance and rerender when its locale changes. */
+export declare const useI18n: <TSchema extends MessageTree = MessageTree, TLocale extends string = string>() => I18n<TSchema, TLocale>;
+/** Convenience hook for locale state and switching. */
+export declare const useLocale: <TLocale extends string = string>() => UseLocaleResult<TLocale>;

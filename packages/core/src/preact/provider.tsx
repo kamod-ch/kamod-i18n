@@ -1,6 +1,6 @@
 import { createContext, type ComponentChildren } from "preact";
 import { useCallback, useContext, useLayoutEffect, useState } from "preact/hooks";
-import type { I18n, MessageTree } from "../core/types";
+import type { I18n, MessageTree } from "../core/types.js";
 
 const I18nContext = createContext<I18n<MessageTree, string> | undefined>(undefined);
 

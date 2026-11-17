@@ -1,5 +1,5 @@
-import { createFormatterCache } from "../intl/cache";
-import { getMessage, interpolate, localeChain, normalizeMessages } from "./messages";
+import { createFormatterCache } from "../intl/cache.js";
+import { getMessage, interpolate, localeChain, normalizeMessages } from "./messages.js";
 import type {
   I18n,
   InterpolationValues,
@@ -10,7 +10,7 @@ import type {
   MissingKeyInfo,
   PluralMessage,
   Unsubscribe,
-} from "./types";
+} from "./types.js";
 
 const isLocaleLoader = <TMessages>(value: TMessages | (() => unknown)): value is () => unknown =>
   typeof value === "function";

@@ -15,10 +15,9 @@
     "jsxImportSource": "preact",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "baseUrl": ".",
     "paths": {
-      "@kamod-ch/i18n": ["packages/core/src/index.ts"],
-      "@kamod-ch/i18n/preact": ["packages/core/src/preact.ts"]
+      "@kamod-ch/i18n": ["./packages/core/src/index.ts"],
+      "@kamod-ch/i18n/preact": ["./packages/core/src/preact.ts"]
     },
     "declaration": true,
     "sourceMap": true
