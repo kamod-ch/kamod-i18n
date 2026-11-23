@@ -1,6 +1,6 @@
 {
   "ignorePatterns": [
-    "dist/**",
+    "**/dist/**",
     "node_modules/**",
     "coverage/**",
     "**/.cursor/**",
